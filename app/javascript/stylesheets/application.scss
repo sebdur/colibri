@@ -2,7 +2,7 @@
 
 $red: #CC0000;
 $ryno: #2F2F2F;
-$store: #FFD91D;
+$store: #FFD4D2;
 $rynobg: #1F1F1F;
 $lightbg: #F9F9F9;
 
@@ -135,28 +135,7 @@ $lightbg: #F9F9F9;
               color: white;
             }
           }
-        }
-        header {
-          section {
-
-          }
-          .map {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            padding-top: 66.666%;
-            .resp-iframe {
-              position: absolute;
-              top: 0;
-              left: 0;
-              bottom: 0;
-              right: 0;
-              border: 0;
-              width: 100%;
-              height: 100%;
-            }
-          }
-        }
+        }        
         main {
           background: $lightbg;
           transition: background 1.5s;
@@ -369,7 +348,7 @@ $lightbg: #F9F9F9;
         .bi-whatsapp {
           margin-top: 12px;
         }
-      }      
+      }
       .instagram {
         position: fixed;
         width: 48px;

@@ -22,10 +22,6 @@ var mp = new MercadoPago('<%= Rails.application.credentials.mercadopago[:public_
 var checkout = mp.checkout({
   preference: {
     id: preferenceId
-  },
-  theme: {
-    elementsColor: '#FFD91D',
-    headerColor: '#FFD91D'
   }
 });
 
