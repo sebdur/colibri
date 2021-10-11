@@ -1,0 +1,31 @@
+<div id="checkout" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-modal">
+      <div style="position:relative;">
+        <%= button_tag "", type:"button", class:"btn-close shadow-none close-modal", "data-bs-dismiss"=>"modal", "aria-label"=>"Close" %>
+      </div>
+      <div class="modal-body p-0 text-center">
+        <h2 class="p-4">¿Cómo quieres tu pedido?</h2>
+        <%= form_tag({:controller => "checkout", :action => "redirect_flow"}, :method => "get", remote: true) do %>
+        <div class="row g-0">
+          <div class="col-6">
+            <div class="form-check form-check-inline">
+              <%= radio_button_tag :shipping_type_id, '1', true, :class => "form-check-input" %>
+              <label class="form-check-label">Retiro en tienda</label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-check form-check-inline">
+              <%= radio_button_tag :shipping_type_id, '2', false, :class => "form-check-input" %>
+              <label class="form-check-label">Envío con delivery</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <%= button_tag "SIGUIENTE", type:"submit", class:"btn btn-store shadow-none my-3", data: { disable_with: "<span class='spinner-border spinner-border-sm' style='width:1rem;height:1rem;' role='status'></span>" } %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

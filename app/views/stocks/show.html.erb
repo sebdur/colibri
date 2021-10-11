@@ -1,0 +1,10 @@
+<div class="container text-center">
+  <h1 class="mt-3">Stock</h1>
+  <h5 class="mb-4">Producto: <%= @stock.product.name %></h5>
+  <h5 class="mb-4">Precio: <%= @stock.price %></h5>
+  <h5 class="mb-4">Disponible: <%= @stock.enabled ? "Si" : "No" %></h5>
+  <h5 class="mb-4">Cantidad: <%= @stock.stock_quantity %></h5>
+  <div class="d-grid gap-2 col-lg-3 mx-auto">
+    <%= link_to "Volver", stocks_path, class: "btn btn-lg btn-outline-dark rounded-pill text-uppercase" %>
+  </div>
+</div>

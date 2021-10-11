@@ -1,0 +1,62 @@
+var containerCheckout = document.getElementById('checkout');
+var checkoutModal = new bootstrap.Modal(containerCheckout);
+
+containerCheckout.setAttribute('style', 'display: none;');
+document.body.setAttribute('style', '');
+document.body.classList.remove('modal-open');
+document.body.removeAttribute('data-bs-padding-right', '');
+
+checkoutModal.dispose();
+
+var modalBackdrops = document.querySelectorAll('.modal-backdrop');
+modalBackdrops.forEach(modalBackdrop => {
+  modalBackdrop.remove();
+});
+
+var target = document.getElementById('target-address');
+target.innerHTML = '<%= j render "partials/address" %>';
+
+var containerAddress = document.getElementById('address');
+var addressModal = new bootstrap.Modal(containerAddress);
+
+addressModal.toggle();
+
+var divSelect = document.getElementById('select');
+var divInput = document.getElementById('input');
+var originalDivSelect = divSelect.innerHTML;
+var originalDivInput = divInput.innerHTML;
+var couponCheck = document.getElementById('coupon_checkbox');
+var couponInput = document.getElementById('coupon');
+
+function citiesLoad(region) {
+  if (region === 'RM') {
+    divSelect.classList.remove('d-none');
+    divInput.classList.add('d-none');
+    divSelect.innerHTML = originalDivSelect;
+    divInput.innerHTML = '';
+  } else {
+    divSelect.classList.add('d-none');
+    divInput.classList.remove('d-none');
+    divSelect.innerHTML = '';
+    divInput.innerHTML = originalDivInput;
+  }
+};
+
+function communeLoad(commune) {
+  if (commune === 'Otra') {
+    divSelect.classList.add('d-none');
+    divInput.classList.remove('d-none');
+    divSelect.innerHTML = '';
+    divInput.innerHTML = originalDivInput;
+  }
+}
+
+function couponCheckBox() {
+  if (couponCheck.checked) {
+    couponInput.classList.remove('d-none');
+  } else {
+    couponInput.classList.add('d-none');
+  }
+}
+
+couponCheck.addEventListener("click", couponCheckBox);

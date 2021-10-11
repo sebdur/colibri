@@ -1,0 +1,17 @@
+<div class="border border-2 border-dark m-5">
+  <div class="row g-0">
+    <div class="col-lg-8">
+      <%= image_tag(@product.photo, class: "img-fluid") %>
+    </div>
+    <div class="col-lg-4 m-auto">
+      <div class="m-3">
+        <div class="title-modal"><%= @product.name %></div>
+        <div class="text-modal"><%= @product.description %></div>
+        <div class="text-modal">Categoría: <%= @product.category.name %></div>
+        <div class="d-grid gap-2 mt-4">
+          <%= link_to "Volver", products_path, class: "btn btn-lg btn-danger rounded-pill text-uppercase fw-bold" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="modal fade" id="sign-up" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content bg-modal">
+      <div style="position:relative;">
+        <%= button_tag "", type:"button", class:"btn-close shadow-none close-modal", "data-bs-dismiss"=>"modal", "aria-label"=>"Close" %>
+      </div>
+      <div class="modal-body text-center">
+        <div class="my-4">
+          <a id="safety-registration" role="button" data-bs-toggle="popover" title="¿Por qué necesitamos tu correo?" data-bs-placement="bottom" data-bs-content="Tus datos serán exclusivamente utilizados para asegurar que tus compras funcionen correctamente. Tu privacidad está a salvo con nosotros.">
+            <div style="position:relative;">
+              <span class="notification">&#x1F98F</span>
+            </div>
+            <%= render 'partials/icons/sign_in' %>
+          </a>
+          <div class="fw-bold fs-3 my-3">Crear cuenta</div>
+          <div id="error-signin"></div>
+        </div>
+        <div class="sign-form">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), namespace: "registration", remote: true) do |f| %>
+          <div class="field form-floating mb-3">
+            <%= f.text_field :name, :required => true, class:"form-control border input-dark", placeholder:"name@example.com" %>
+            <%= f.label :name, "Nombre *", class:"input-dark" %>
+          </div>
+          <div class="field form-floating mb-3">
+            <%= f.email_field :email, :required => true, class:"form-control border input-dark", placeholder:"name@example.com" %>
+            <%= f.label :email, "Email *" ,class:"input-dark" %>
+          </div>
+
+          <div class="field form-floating mb-3">
+            <%= f.password_field :password, :required => true, class:"form-control border input-dark", placeholder:"name@example.com" %>
+            <%= f.label :password, "Contraseña *", class:"input-dark" %>
+          </div>
+
+          <div class="field form-floating mb-3">
+            <%= f.password_field :password_confirmation, :required => true, class:"form-control border input-dark", placeholder:"name@example.com" %>
+            <%= f.label :password_confirmation, "Confirmar contraseña *", class:"input-dark" %>
+          </div>
+
+          <div class="d-grid gap-2">
+            <%= f.button "REGISTRARSE", class:"btn btn-lg btn-login shadow-none mt-3", data: { disable_with: "<span class='spinner-border spinner-border-sm' style='width:1.2rem;height:1.2rem;' role='status'></span>" } %>
+            <%= link_to "VOLVER", "", "data-bs-toggle"=>"modal", "data-bs-dismiss"=>"modal", "data-bs-target"=>"#sign-in" %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var popover = new bootstrap.Popover(document.getElementById('safety-registration'), {
+    container: 'body'
+  })
+</script>

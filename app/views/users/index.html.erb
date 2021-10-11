@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="text-center">
+    <h1 class="mt-3">Usuarios</h1>
+  </div>
+  <div class="col-lg-12 py-5">
+    <div class="table-responsive">
+      <table class="table table-borderless text-center">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Creación</th>
+          </tr>
+        </thead>
+
+        <tbody class="border-top">
+          <% @users.order("id DESC").each do |user| %>
+          <tr class="border-bottom">
+            <td class="align-middle"><%= user.name %></td>
+            <td class="align-middle"><%= user.email %></td>
+            <td class="align-middle text-capitalize"><%= user.role %></td>
+            <td class="align-middle"><%= user.created_at.strftime("%d/%m/%Y - %H:%M") %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<% flash.each do |type, msg| %>
+<div class="alert alert-dark alert-dismissible fade show fixed-top" role="alert">
+  <%= msg %>
+  <%= button_tag "", type:"button", class:"btn-close shadow-none", "data-bs-dismiss"=>"alert", "aria-label"=>"Close" %>
+</div>
+<% end %>

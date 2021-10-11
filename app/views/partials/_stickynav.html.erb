@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row g-0">
+    <div class="scrollmenu">
+      <% @categories.order(:id).each do |category| %>
+      <%= link_to "#{category.name}", "category#{category.id}", class:"btn btn-category shadow-none border" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="col-lg-4 my-3">
+  <div class="card" <% if product.stock.enabled === false%>style="opacity:0.5;"<% end %>>
+    <% if product.stock.enabled === true %>
+    <%= link_to "", "", class: "stretched-link", "data-bs-toggle"=>"modal", "data-bs-target"=>"#product#{product.id}" %>
+    <% end %>
+    <%= image_tag(product.photo, class: "card-img-top") %>
+    <div class="card-body">
+      <div class="row g-0">
+        <div class="col-8 my-auto">
+          <div class="title-card"><%= product.name %></div>
+        </div>
+        <div class="col-4 my-auto text-end">
+          <% if product.stock.stock_quantity > 0%>
+          <div class="price-card"><%= number_to_currency(product.stock.price, unit: "$", delimiter: ".", precision: 0) %></div>
+          <% else %>
+          <div class="no-stock">SIN STOCK</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

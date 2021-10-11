@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row g-0">
+    <div class="navibar">
+      <div class="float-start">
+        <% if current_user.present? && current_user.user? %>
+        <%= link_to "", class:"nav-icon", id:"dropdownMenuLink", role:"button", "data-bs-toggle"=>"dropdown", "aria-haspopup"=>"true", "aria-expanded"=>"false" do %>
+        <%= render 'partials/icons/list' %>
+        <% end %>
+        <ul class="dropdown-menu dropdown-customer" aria-labelledby="dropdownMenuLink">
+          <li class="nav-link"><span class="user-name">Hola, <%= current_user.name %></span></li>
+          <li><%= link_to "Mis compras", orders_path, class:"dropdown-item" %></li>
+          <li><hr class="dropdown-divider border"></li>
+          <li><%= link_to "Cerrar sesión", destroy_user_session_path, method: :delete, class:"dropdown-item" %></li>
+        </ul>
+        <% else %>
+        <%= link_to image_pack_tag("media/images/logo.png", class:"nav-icon stretched-link", height:"41"), "top", id:"toTop" %>
+        <% end %>
+      </div>
+      <% if current_user.present? && current_user.user? %>
+      <%= link_to image_pack_tag("media/images/logo.png", class:"nav-icon stretched-link", height:"41"), "top", id:"toTop" %>
+      <% end %>
+      <div class="float-end">
+        <% if current_user.present? && current_user.user? %>
+        <%= link_to "", class:"cart nav-icon" ,"data-bs-toggle"=>"modal", "data-bs-target"=>"#cart" do %>
+        <div style="position:relative;">
+          <span id="cart-counter"><%= current_user.orders.where(payed: false).map{ |order| order.quantity }.sum %></span>
+        </div>
+        <%= render 'partials/icons/cart' %>
+        <% end %>
+        <% end %>
+        <% if current_user.nil? %>
+        <%= link_to "", class:"nav-icon", "data-bs-toggle"=>"modal", "data-bs-target"=>"#sign-in" do %>
+        <%= render 'partials/icons/person' %>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

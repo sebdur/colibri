@@ -1,0 +1,47 @@
+<div id="cart" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-modal">
+      <div style="position:relative;">
+        <%= button_tag "", type:"button", class:"btn-close shadow-none close-modal", "data-bs-dismiss"=>"modal", "aria-label"=>"Close" %>
+      </div>
+      <div class="modal-body p-0">
+        <div class="table-responsive p-3">
+          <table class="table table-borderless table-style">
+            <thead>
+              <tr class="border-bottom">
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @orders.each do |order| %>
+              <tr id="deleteOrder<%= order.id %>">
+                <td class="align-middle fw-bold"><%= image_tag order.stock.product.photo, class:"img-fluid"%><br><%= order.stock.product.name %></td>
+                <td class="align-middle"><%= order.quantity %></td>
+                <td class="align-middle"><%= number_to_currency(order.stock.price * order.quantity, unit: "$", delimiter: ".", precision: 0) %></td>
+                <td class="align-middle"><%= link_to order, class:"text-decoration-none", method: :delete, remote: true do %>&#x1F5D1<% end %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer border-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-8">
+              <div class="d-grid gap-2">
+                <%= link_to "COMPRAR", "", class: "btn btn-lg btn-store shadow-none", "data-bs-toggle"=>"modal", "data-bs-target"=>"#checkout", "data-bs-dismiss"=>"modal" %>
+              </div>
+            </div>
+            <div class="col-4 text-center">
+              <span id="subtotal"><%= number_to_currency(@orders.map{ |order| order.stock.price * order.quantity }.sum, unit: "$", delimiter: ".", precision: 0) %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

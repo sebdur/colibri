@@ -1,0 +1,107 @@
+<div class="container">
+  <% if current_user.admin? %>
+  <div class="mt-4">
+    <div class="w-75 mx-auto px-2 py-1 lightbg">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="fw-bold">Usuario:</h5>
+          <p><%= @payment.user.name %></p>
+        </div>
+        <div class="col-6">
+          <h5 class="fw-bold">Email:</h5>
+          <p><%= @payment.user.email %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <div class="mt-4">
+    <div class="w-75 mx-auto px-2 py-1 lightbg">
+      <div class="row">
+        <div class="col-6">
+          <h5 class="fw-bold">Número de compra:</h5>
+          <p><%= @payment.token %></p>
+        </div>
+        <div class="col-6">
+          <h5 class="fw-bold">Tipo de compra:</h5>
+          <p><%= t(@payment.shipping) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if @address.present? %>
+  <div class="mt-4">
+    <div class="w-75 mx-auto px-2 py-1 lightbg">
+      <h5 class="fw-bold">Datos para envío</h5>
+      <div class="row">
+        <div class="col-6">
+          <h6>Dirección:</h6>
+          <% if @address.street2.present? %>
+          <h6>Dpto/Piso/Torre:</h6>
+          <% end %>
+          <h6>Teléfono:</h6>
+          <h6>Región:</h6>
+          <h6>Comuna:</h6>
+          <% if @address.note.present? %>
+          <h6>Nota:</h6>
+          <% end %>
+        </div>
+        <div class="col-6">
+          <h6><%= @address.street %></h6>
+          <% if @address.street2.present? %>
+          <h6><%= @address.street2 %></h6>
+          <% end %>
+          <h6><%= @address.phone %></h6>
+          <h6><%= @address.region %></h6>
+          <h6><%= @address.commune %></h6>
+          <% if @address.note.present? %>
+          <h6><%= @address.note %></h6>
+          <% end %>
+        </div>
+        </div
+      </div>
+    </div>
+    <% end %>
+    <div class="table-responsive mt-4">
+      <table class="table table-borderless text-center">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody class="border-top">
+          <% @payment.orders.each do |order| %>
+          <tr>
+            <td class="align-middle fw-bold"><%= image_tag(order.stock.product.photo, class:"img-fluid", style:"max-height:10rem;")%><br><%= order.stock.product.name %></td>
+            <td class="align-middle"><%= order.stock.product.category.name %></td>
+            <td class="align-middle"><%= order.quantity %></td>
+            <td class="align-middle"><%= number_to_currency(order.stock.price * order.quantity, unit: "$", delimiter: ".", precision: 0) %></td>
+          </tr>
+          <% end %>
+          <% if @commune_price.present? %>
+          <tr class="border-bottom">
+            <td></td>
+            <td></td>
+            <td class="align-middle">Envío</td>
+            <td class="align-middle"><%= number_to_currency(@commune_price, unit: "$", delimiter: ".", precision: 0) %></td>
+          </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr class="fs-3 fw-bolder">
+            <% if current_user.admin? %>
+            <td><div class="d-grid gap-2 col-6 mx-auto"><%= link_to 'VOLVER', payments_path, class: "btn btn-outline-dark shadow-none" %></div></td>
+            <% else %>
+            <td><div class="d-grid gap-2 col-6 mx-auto"><%= link_to 'VOLVER', orders_path, class: "btn btn-outline-dark shadow-none" %></div></td>
+            <% end %>
+            <td></td>
+            <td>Total</td>
+            <td><%= number_to_currency(@payment.amount, unit: "$", delimiter: ".", precision: 0) %></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>

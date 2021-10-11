@@ -1,0 +1,31 @@
+<div class="failure">
+  <div class="container">
+    <span class="float-end py-2">Redireccionando <span id="failure-countdown">en <span id="counter-failure">9</span> seg</span></span>
+    <h1 class="pt-5 mb-3">Oh no, algo salió mal &#x2639</h1>
+    <h6>Por favor, intenta otra vez.</h6>
+  </div>
+</div>
+
+<script>
+  function countdown() {
+    var seconds = document.getElementById('counter-failure').innerHTML;
+    seconds = parseInt(seconds, 10);
+
+    if (seconds == 1) {
+      var temp = document.getElementById('failure-countdown');
+      temp.innerHTML = "...";
+      return;
+    }
+
+    seconds--;
+    var temp = document.getElementById('counter-failure');
+    temp.innerHTML = seconds;
+    timeoutMyOswego = setTimeout(countdown, 1000);
+  }
+
+  countdown();
+
+  window.setTimeout(() => {
+    window.location.replace('<%= root_path %>');
+  }, 8000);
+</script>

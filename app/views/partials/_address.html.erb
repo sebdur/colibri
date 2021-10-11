@@ -1,0 +1,52 @@
+<div id="address" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-modal" style="min-height:250px;">
+      <div style="position:relative;">
+        <%= button_tag "", type:"button", class:"btn-close shadow-none close-modal", "data-bs-dismiss"=>"modal", "aria-label"=>"Close" %>
+      </div>
+      <div class="modal-body p-0">
+        <h2 class="pt-5 text-center">Datos para envío</h2>
+        <div class="address-form">
+          <%= form_with(model: @address, remote: true, class: "d-grid gap-2 col-6 mx-auto my-4", url: checkout_address_path) do |form| %>
+          <div class="field form-floating mb-3">
+            <%= form.text_field :street, class:"form-control border input-dark", placeholder:"name@example.com", required: true %>
+            <%= form.label :street, "Dirección *", class:"input-dark" %>
+          </div>
+          <div class="field form-floating mb-3">
+            <%= form.text_field :street2, class:"form-control border input-dark", placeholder:"name@example.com" %>
+            <%= form.label :street2, "Dpto / Piso / Casa", class:"input-dark" %>
+          </div>
+          <div class="field form-floating mb-3">
+            <%= form.telephone_field :phone, class:"form-control border input-dark", placeholder:"name@example.com", required: true %>
+            <%= form.label :phone, "Teléfono *", class:"input-dark" %>
+          </div>
+          <div class="field mb-3" id="region">
+            <%= form.select :region, options_for_select(@regions), {:prompt => "Región *"}, {:class => "form-select form-select-lg border input-dark", :required => "true", :onchange => "citiesLoad(this.value);"} %>
+          </div>
+          <div class="field mb-3 d-none" id="select">
+            <%= form.select :commune, options_for_select(@communes), {:prompt => "Comuna *"}, {:class => "form-select form-select-lg border input-dark", :required => "true", :onchange => "communeLoad(this.value);"} %>
+          </div>
+          <div class="field form-floating mb-3 d-none" id="input">
+            <%= form.text_field :commune, class:"form-control border input-dark", placeholder:"name@example.com", :required => "true" %>
+            <%= form.label :commune, "Comuna *", class:"input-dark" %>
+          </div>
+          <div class="field form-floating mb-3">
+            <%= form.text_area :note, class:"form-control border input-dark", placeholder:"name@example.com", style:"height:66px;" %>
+            <%= form.label :note, "Incluye una nota", class:"input-dark" %>
+          </div>
+          <div class="field form-check">
+            <%= check_box_tag :coupon_checkbox, "1", false, class:"form-check-input" %>
+            <%= label_tag :coupon_checkbox, "Tengo cupón", class:"form-check-label input-dark" %>
+          </div>
+          <div class="field form-floating d-none" id="coupon">
+            <%= text_field_tag :coupon_input, nil, class:"form-control border input-dark", placeholder:"name@example.com" %>
+            <%= label_tag :coupon_input, "Código cupón", class:"input-dark"%>
+          </div>
+          <%= form.hidden_field :payment_id, :value => @last_order.payment.id %>
+          <%= button_tag "SIGUIENTE", type:"submit", class:"btn btn-store shadow-none my-3", data: { disable_with: "<span class='spinner-border spinner-border-sm' style='width:1rem;height:1rem;' role='status'></span>" } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

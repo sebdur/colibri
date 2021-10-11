@@ -1,0 +1,8 @@
+const delete<%= @order.id %> = document.querySelector("#deleteOrder" + <%= @order.id %>);
+delete<%= @order.id %>.remove();
+
+var subTotal = document.getElementById('subtotal');
+subTotal.innerHTML = '<%= number_to_currency(@orders.map{ |order| order.stock.price * order.quantity }.sum, unit: "$", delimiter: ".", precision: 0) %>';
+
+var counter = document.getElementById('cart-counter');
+counter.innerHTML = '<%= current_user.orders.where(payed: false).map{ |order| order.quantity }.sum %>';

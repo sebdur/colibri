@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="text-center">
+    <h1 class="mt-3">Cupones</h1>
+    <%= link_to new_coupon_path, class:"btn btn-lg btn-outline-dark rounded-pill" do %>
+    <%= render 'partials/icons/plus' %>Nuevo Cupon
+    <% end %>
+  </div>
+  <% if @coupons.present? %>
+    <div class="col-lg-12 py-5">
+      <div class="table-responsive">
+        <table class="table table-borderless text-center">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Descripción</th>
+              <th>Disponible</th>
+            </tr>
+          </thead>
+          <tbody class="border-top">
+            <% @coupons.order("id DESC").each do |coupon| %>
+            <tr class="border-bottom" id="deleteCoupon<%= coupon.id %>">
+              <td class="align-middle"><%= coupon.code %></td>
+              <td class="align-middle"><%= coupon.description %></td>
+              <td class="align-middle"><%= coupon.enabled ? "Si" : "No" %></td>
+              <td class="align-middle icons"><%= link_to coupon do render 'partials/icons/eye' end %></td>
+              <td class="align-middle icons"><%= link_to edit_coupon_path(coupon) do render 'partials/icons/edit' end %></td>
+              <td class="align-middle icons"><%= link_to coupon, method: :delete, data: { confirm: 'Are you sure?' }, remote: true do render 'partials/icons/trash' end%></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>

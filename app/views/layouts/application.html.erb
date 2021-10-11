@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Online Store">
+    <meta name="keywords" content="Online, Store">
+    <meta name="author" content="Rynodark">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <title>Store</title>
+    <%= favicon_pack_tag('media/images/logo.png') %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body id="top">
+    <% if current_user.present? && current_user.admin? %>
+    <%= render 'partials/navbar' %>
+    <% end %>
+    <%= render 'partials/alerts' %>
+    <%= yield %>
+  </body>
+</html>

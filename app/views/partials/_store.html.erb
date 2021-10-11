@@ -1,0 +1,33 @@
+<% if @categories.present? %>
+<div class="sticky-top border-top border-bottom">
+  <%= render 'partials/stickynav' %>
+</div>
+
+<div class="container" style="padding-bottom:40px;">
+  <div class="float-end" style="padding-top:50px;">
+    <a id="mode" class="lightbulb" data-turbolinks="false">&#x1F98F</a>
+  </div>
+  <% @categories.order(:id).each do |category| %>
+  <section class="section-category" id="category<%= category.id %>">
+    <div class="title-category font-monospace"><%= category.name %></div>
+    <div class="row">
+      <% @products.order(:id).each do |product| %>
+      <% if category.name == product.category.name %>
+      <%= render 'partials/card', product: product %>
+      <%= render 'partials/modal', product: product %>
+      <% end %>
+      <% end %>
+    </div>
+  </section>
+  <% end %>
+</div>
+<% end %>
+<% if current_user.present? && current_user.user? %>
+<%= render 'partials/offcanvas' %>
+<%= render 'partials/checkout' %>
+<div id="target-cart"><%= render 'partials/cart' %></div>
+<div id="target-address"></div>
+<% else %>
+<%= render 'partials/sign_in' %>
+<%= render 'partials/sign_up' %>
+<% end %>

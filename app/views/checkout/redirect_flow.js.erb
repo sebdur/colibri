@@ -1,0 +1,34 @@
+var containerCheckout = document.getElementById('checkout');
+var checkoutModal = new bootstrap.Modal(containerCheckout);
+
+containerCheckout.setAttribute('style', 'display: none;');
+document.body.setAttribute('style', '');
+document.body.classList.remove('modal-open');
+document.body.removeAttribute('data-bs-padding-right', '');
+
+checkoutModal.dispose();
+
+var modalBackdrops = document.querySelectorAll('.modal-backdrop');
+modalBackdrops.forEach(modalBackdrop => {
+  modalBackdrop.remove();
+});
+
+var preferenceId = '<%= @preference_id %>';
+
+var mp = new MercadoPago('<%= Rails.application.credentials.mercadopago[:public_key] %>', {
+    locale: 'es-CL'
+});
+
+var checkout = mp.checkout({
+  preference: {
+    id: preferenceId
+  },
+  theme: {
+    elementsColor: '#FFD91D',
+    headerColor: '#FFD91D'
+  }
+});
+
+window.setTimeout(() => {
+  checkout.open();
+}, 2000);

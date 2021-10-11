@@ -1,0 +1,23 @@
+<%= render 'partials/intro' %>
+
+<div id="background-intro">
+  <div class="index">
+    <nav class="sticky-top">
+      <%= render 'partials/navibar' %>
+    </nav>
+    <header>
+      <%= render 'partials/customer' %>
+    </header>
+    <main>
+      <%= render 'partials/store' %>
+    </main>
+    <%= image_pack_tag("media/images/carousel3.png", class:"d-block w-100") %>
+    <footer>
+      <%= render 'partials/footer' %>
+    </footer>
+    <%= render 'partials/socialmedia' %>
+  </div>
+
+  <%= javascript_include_tag('https://sdk.mercadopago.com/js/v2') %>
+  <%= javascript_pack_tag 'home' %>
+</div>

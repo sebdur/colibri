@@ -1,0 +1,28 @@
+<nav class="navbar">
+  <div class="container">
+    <ul class="nav">
+      <li class="nav-link dropdown">
+        <%= link_to "", class:"nav-icon", id:"navbarDropdown", role:"button", "data-bs-toggle"=>"dropdown", "aria-haspopup"=>"true", "aria-expanded"=>"false" do %>
+        <%= render 'partials/icons/list' %>
+        <% end %>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+          <li><%= link_to "Categorías", categories_path, class:"dropdown-item" %></li>
+          <li><%= link_to "Productos", products_path, class:"dropdown-item" %></li>
+          <li><%= link_to "Cupones", coupons_path, class:"dropdown-item" %></li>
+          <li><%= link_to "Compras", payments_path, class:"dropdown-item" %></li>
+          <li><%= link_to "Usuarios", users_path, class:"dropdown-item" %></li>
+        </ul>
+      </li>
+      <li class="nav-link">
+        <%= link_to root_path, class:"nav-icon" do %>
+        <%= render 'partials/icons/home' %>
+        <% end %>
+      </li>
+      <li class="nav-link">
+        <%= link_to destroy_user_session_path, class:"nav-icon", method: :delete do %>
+        <%= render 'partials/icons/sign_out' %>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,85 @@
+<div class="modal fade" id="product<%= product.id %>" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-modal">
+      <div style="position:relative;">
+        <%= button_tag "", type:"button", class:"btn-close shadow-none close-modal", "data-bs-dismiss"=>"modal", "aria-label"=>"Close" %>
+      </div>
+      <div class="row g-0">
+        <div class="col-lg-8 m-auto">
+          <%= image_tag(product.photo, class:"img-fluid") %>
+        </div>
+        <div class="col-lg-4 m-auto">
+          <div class="modal-body">
+            <div class="title-modal"><%= product.name %></div>
+            <div class="text-modal"><%= product.description %></div>
+            <%= form_with(model: @order) do |form| %>
+            <div class="row g-0 border-top border-bottom quantity-row">
+              <div class="col-6">
+                <span class="small-span">Cantidad</span>
+                <div class="input-group">
+                  <%= button_tag "-", type:"button", class:"button-decrease rounded-pill border", onclick:"decreaseValue(#{product.id});" %>
+                  <%= form.text_field :quantity, min: 1, max: product.stock.stock_quantity, value: 1, class:"form-control input-quantity", id:"#{product.id}" %>
+                  <%= button_tag "+", type:"button", class:"button-increase rounded-pill border", onclick:"increaseValue(#{product.id});" %>
+                  <% if product.stock %>
+                  <%= form.hidden_field :stock_id, value: product.stock.id, id:"hidden#{product.id}" %>
+                  <% end %>
+                </div>
+              </div>
+              <% if product.stock %>
+              <div class="col-6 text-end">
+                <span class="small-span">Precio c/u</span>
+                <br><span class="price-modal" id="precio"><%= number_to_currency(product.stock.price, unit: "$", delimiter: ".", precision: 0) %></span>
+              </div>
+              <% end %>
+            </div>
+            <div class="d-grid gap-2 mt-4">
+              <% if current_user.present? %>
+              <%= form.button "AÑADIR AL CARRO", type:"submit", class:"btn btn-lg btn-store shadow-none", onclick:"closeModal('product#{product.id}');" %>
+              <% else %>
+              <%= button_tag "AÑADIR AL CARRO", type:"button", class:"btn btn-lg btn-store shadow-none", "data-bs-toggle"=>"modal", "data-bs-target"=>"#sign-in", "data-bs-dismiss"=>"modal" %>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function closeModal(modalProduct) {
+    let container = document.getElementById(modalProduct);
+    let modal = new bootstrap.Modal(container);
+
+    modal.dispose();
+
+    container.setAttribute('style', 'display: none;');
+    document.body.setAttribute('style', '');
+    document.body.classList.remove('modal-open');
+    document.body.removeAttribute('data-bs-padding-right', '');
+
+    const modalBackdrops = document.querySelectorAll('.modal-backdrop');
+    modalBackdrops.forEach(modalBackdrop => {
+      modalBackdrop.remove();
+    });
+  };
+
+  function decreaseValue(productId) {
+    let input = document.getElementById(productId);
+    let value = parseInt(input.value);
+    if (input.value > input.min) {
+      value--;
+    }
+    input.value = value;
+  };
+
+  function increaseValue(productId) {
+    let input = document.getElementById(productId);
+    let value = parseInt(input.value);
+    if (input.value != input.max) {
+      value++;
+    }
+    input.value = value;
+  };
+</script>

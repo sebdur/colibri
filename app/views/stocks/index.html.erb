@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="text-center">
+    <h1 class="mt-3">Stocks</h1>
+    <%= link_to new_stock_path, class:"btn btn-lg btn-outline-dark rounded-pill" do %>
+    <%= render 'partials/icons/plus' %>Nuevo Stock
+    <% end %>
+  </div>
+  <% if @stocks.present? %>
+  <div class="col-lg-12 py-5">
+    <div class="table-responsive">
+      <table class="table table-borderless text-center">
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Producto</th>
+            <th>Disponible</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+
+        <tbody class="border-top">
+          <% @stocks.order(:id).each do |stock| %>
+          <tr id="deleteStock<%= stock.id %>">
+            <td class="align-middle border-bottom"><%= image_tag(stock.product.photo, height:"120") %></td>
+            <td class="align-middle border-bottom text-capitalize"><%= stock.product.name %></td>
+            <td class="align-middle border-bottom"><%= stock.enabled ? "Si" : "No" %></td>
+            <td class="align-middle border-bottom"><%= stock.stock_quantity %></td>
+            <td class="align-middle border-bottom"><%= number_to_currency(stock.price, unit: "$", delimiter: ".", precision: 0) %></td>
+            <td class="align-middle border-bottom icons"><%= link_to stock do render 'partials/icons/eye' end %></td>
+            <td class="align-middle border-bottom icons"><%= link_to edit_stock_path(stock) do render 'partials/icons/edit' end %></td>
+            <td class="align-middle border-bottom icons"><%= link_to stock, method: :delete, data: { confirm: 'Are you sure?' }, remote: true do render 'partials/icons/trash' end%></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% end %>
+</div>

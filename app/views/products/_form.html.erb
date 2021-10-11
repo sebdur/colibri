@@ -1,0 +1,57 @@
+<%= form_with(model: @product, local: true, class: "d-grid gap-2 col-lg-6 mx-auto my-4") do |form| %>
+  <% if @product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this @product from being saved:</h2>
+      <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-floating mb-3">
+    <%= form.text_field :name, class:"form-control", placeholder:"name@example.com", required: true %>
+    <%= form.label :name, "Nombre" %>
+  </div>
+
+  <div class="field input-group mb-3">
+    <%= form.label :photo, "Foto", class:"input-group-text bg-transparent" %>
+    <%= form.file_field :photo, class:"form-control form-control-lg", type:"file" %>
+  </div>
+
+
+  <div class="field form-floating mb-3">
+    <%= form.text_area :description, class:"form-control", style:"height: 100px;", required: true  %>
+    <%= form.label :description, "Descripción" %>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= form.collection_select :category_id, Category.order(:id), :id, :name, {}, {class: "form-select"}%>
+    <%= form.label :category_id, "Categoría" %>
+  </div>
+
+  <%= form.fields_for :stock do |stocks_subform|%>
+
+    <div class="field form-floating mb-3">
+      <%= stocks_subform.number_field :price, class:"form-control", placeholder:"name@example.com" %>
+      <%= stocks_subform.label :price, "Precio" %>
+    </div>
+
+    <div class="field form-floating mb-3">
+      <%= stocks_subform.number_field :stock_quantity, class:"form-control", placeholder:"name@example.com" %>
+      <%= stocks_subform.label :stock_quantity, "Cantidad de stock" %>
+    </div>
+
+    <div class="form-check form-switch mb-4 mx-auto">
+      <%= stocks_subform.check_box :enabled, class: "form-check-input", style:"height:30px; width:70px;" %>
+      <%= stocks_subform.label :enabled, "Disponible", class: "mx-2 fs-4" %>
+    </div>
+
+  <% end %>
+
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <%= form.submit "HECHO", class: "btn btn-lg btn-dark" %>
+    <%= link_to "VOLVER", products_path, class: "btn btn-lg btn-outline-dark" %>
+  </div>
+<% end %>

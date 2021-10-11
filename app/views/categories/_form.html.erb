@@ -1,0 +1,23 @@
+<%= form_with(model: category, local: true, class: "d-grid gap-2 col-lg-6 mx-auto my-4") do |form| %>
+  <% if category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+
+      <ul>
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-floating mb-3">
+    <%= form.text_field :name, class:"form-control", required: true %>
+    <%= form.label :name, "Nombre" %>
+  </div>
+
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <%= form.submit "HECHO", class: "btn btn-lg btn-dark" %>
+    <%= link_to "VOLVER", categories_path, class: "btn btn-lg btn-outline-dark" %>
+  </div>
+<% end %>

@@ -1,0 +1,38 @@
+<%= form_with(model: stock, local: true, class: "d-grid gap-2 col-lg-6 mx-auto my-4") do |form| %>
+  <% if stock.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(stock.errors.count, "error") %> prohibited this stock from being saved:</h2>
+
+      <ul>
+        <% stock.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-floating mb-3">
+    <%= form.collection_select :product_id, Product.order(:name), :id, :name, {}, { class: "form-select btn-outline-dark border-dark text-capitalize" } %>
+    <%= form.label :product_id, "Producto" %>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= form.number_field :price, class:"form-control btn-outline-dark border-dark", placeholder:"name@example.com" %>
+    <%= form.label :price, "Precio" %>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= form.number_field :stock_quantity, class:"form-control btn-outline-dark border-dark", placeholder:"name@example.com" %>
+    <%= form.label :stock_quantity, "Cantidad" %>
+  </div>
+
+  <div class="form-check form-switch mb-5 mx-auto">
+    <%= form.check_box :enabled, class: "form-check-input border-dark shadow-none", style:"height:30px; width:70px;" %>
+    <%= form.label :enabled, "Disponible", class: "mx-2 fs-4" %>
+  </div>
+
+  <div class="d-grid gap-2 col-12 mx-auto">
+    <%= form.submit "Hecho", class: "btn btn-lg btn-dark rounded-pill text-uppercase" %>
+    <%= link_to "Volver", stocks_path, class: "btn btn-lg btn-outline-dark rounded-pill text-uppercase" %>
+  </div>
+<% end %>

@@ -1,0 +1,99 @@
+<div class="container">
+  <span class="float-end py-2">Redireccionando <span id="countdown-pending">en <span id="counter-pending">11</span> seg</span></span>
+  <div class="text-center pt-5">
+    <div style="font-size:5rem;">&#x23F3</div>
+    <h1 class="fw-bold">Tu pago está pendiente</h1>
+    <h6>Serás notificado al correo asociado a tu pago.</h6>
+  </div>
+  <% if @address.present? %>
+  <div class="mt-4">
+    <div class="w-75 mx-auto px-2 py-1 lightbg"">
+      <h5 class="fw-bold">Datos para envío</h5>
+      <div class="row">
+        <div class="col-6">
+          <h6>Dirección:</h6>
+          <% if @address.street2.present? %>
+          <h6>Dpto/Piso/Torre:</h6>
+          <% end %>
+          <h6>Teléfono:</h6>
+          <h6>Región:</h6>
+          <h6>Comuna:</h6>
+          <% if @address.note.present? %>
+          <h6>Nota:</h6>
+          <% end %>
+        </div>
+        <div class="col-6">
+          <h6><%= @address.street %></h6>
+          <% if @address.street2.present? %>
+          <h6><%= @address.street2 %></h6>
+          <% end %>
+          <h6><%= @address.phone %></h6>
+          <h6><%= @address.region %></h6>
+          <h6><%= @address.commune %></h6>
+          <% if @address.note.present? %>
+          <h6><%= @address.note %></h6>
+          <% end %>
+        </div>
+      </div
+    </div>
+  </div>
+  <% end %>
+  <div class="table-responsive mt-4">
+    <table class="table table-borderless text-center">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody class="border-top">
+        <% @payment.orders.each do |order| %>
+        <tr class="border-bottom">
+          <td class="align-middle fw-bold"><%= image_tag(order.stock.product.photo, class:"img-fluid", style:"max-height:5rem;")%><br><%= order.stock.product.name %></td>
+          <td class="align-middle"><%= order.quantity %></td>
+          <td class="align-middle"><%= number_to_currency(order.stock.price * order.quantity, unit: "$", delimiter: ".", precision: 0) %></td>
+        </tr>
+        <% end %>
+        <% if @commune_price.present? %>
+        <tr class="border-bottom">
+          <td></td>
+          <td class="align-middle">Envío</td>
+          <td class="align-middle"><%= number_to_currency(@commune_price, unit: "$", delimiter: ".", precision: 0) %></td>
+        </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="fs-3 fw-bold">
+          <td></td>
+          <td>Total</td>
+          <td><%= number_to_currency(@payment.amount, unit: "$", delimiter: ".", precision: 0) %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<script>
+  function countdown() {
+    var seconds = document.getElementById('counter-pending').innerHTML;
+    seconds = parseInt(seconds, 10);
+
+    if (seconds == 1) {
+      var temp = document.getElementById('countdown-pending');
+      temp.innerHTML = "...";
+      return;
+    }
+
+    seconds--;
+    var temp = document.getElementById('counter-pending');
+    temp.innerHTML = seconds;
+    timeoutMyOswego = setTimeout(countdown, 1000);
+  }
+
+  countdown();
+
+  window.setTimeout(() => {
+    window.location.replace('<%= orders_path %>');
+  }, 10000);
+</script>
