@@ -28,6 +28,14 @@ class CheckoutController < ApplicationController
         order.payment.address.update(address_params)
       end
     end
+    region = address_params["region"]
+    commune = address_params["commune"]
+    communes = Address.communes.select{ |e| e.include?(commune) }[0]
+    if region == "RM" && communes.present?
+      commune_price = communes[1].to_i
+      shipping_price = commune_price
+    end
+    create_payment(shipping_price)
     # if params[:coupon_checkbox] = true
     #   @coupons = Coupon.all
     #   @coupons.each do |coupon|
@@ -37,12 +45,6 @@ class CheckoutController < ApplicationController
     #     end
     #   end
     # end
-    if address_params["region"] == "RM"
-      commune = address_params["commune"]
-      commune_price = Address.communes.select{ |e| e.include?(commune) }[0][1].to_i
-      shipping_price = commune_price
-    end
-    create_payment(shipping_price)
   end
 
   def create_payment(shipping_price = nil)
@@ -107,7 +109,7 @@ class CheckoutController < ApplicationController
         order.payment.update(token: params["payment_id"],
                              payment_method: params["payment_type"],
                              amount: amount,
-                             status: params["status"],
+                             status: 'approved',
                              merchant_order_id: params["merchant_order_id"],
                              external_reference: params["external_reference"])
         order.save
@@ -144,7 +146,7 @@ class CheckoutController < ApplicationController
         order.payment.update(token: params["payment_id"],
                              payment_method: params["payment_type"],
                              amount: amount,
-                             status: params["status"],
+                             status: 'pending',
                              merchant_order_id: params["merchant_order_id"],
                              external_reference: params["external_reference"])
         order.save
