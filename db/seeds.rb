@@ -11,3 +11,9 @@ User.create(
   email: "admin@ryno.com",
   password: "rynodark"
 ).admin!
+
+User.create(
+  name: "User",
+  email: "user@store.com",
+  password: "123456"
+)

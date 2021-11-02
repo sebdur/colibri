@@ -26,6 +26,17 @@
     <%= form.check_box :enabled %>
   </div>
 
+  <div class="field">
+    <%= form.label :free_shipping %>
+    <%= form.check_box :free_shipping %>
+  </div>
+
+  <div class="field">
+    <%= form.label :discount %>
+    <%= form.number_field :discount %>
+  </div>
+
+
   <div class="actions">
     <%= form.submit %>
   </div>

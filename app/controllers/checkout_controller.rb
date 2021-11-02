@@ -33,21 +33,38 @@ class CheckoutController < ApplicationController
     communes = Address.communes.select{ |e| e.include?(commune) }[0]
     if region == "RM" && communes.present?
       commune_price = communes[1].to_i
-      shipping_price = commune_price
+      @shipping_price = commune_price
     end
-    create_payment(shipping_price)
-    # if params[:coupon_checkbox] = true
-    #   @coupons = Coupon.all
-    #   @coupons.each do |coupon|
-    #     if params[:coupon_input] === coupon.code
-    #       commune_price = 0
-    #       shipping_price = commune_price
-    #     end
-    #   end
-    # end
+    if params[:coupon_checkbox] === '1'
+      @coupon = get_coupon(code = params['coupon_input'])
+      if @coupon === 0
+        @shipping_price = 0
+        create_payment(@shipping_price)
+      else
+        create_payment(@shipping_price, @coupon)
+      end
+    else
+      create_payment(@shipping_price)
+    end
   end
 
-  def create_payment(shipping_price = nil)
+  def get_coupon(code)
+    @coupon = Coupon.find_by(code: code)
+    if @coupon.nil? or @coupon.enabled === false
+      #agregar alguna alerta de que el cupón no es válido
+      redirect_to root_path, alert: 'cupón no válido'
+    else
+      if @coupon.free_shipping?
+        shipping_price = 0
+        return shipping_price
+      else
+        discount = @coupon.discount
+        return discount
+      end
+    end
+  end
+
+  def create_payment(shipping_price = nil, discount = nil)
     require 'mercadopago'
     base_url = Rails.application.credentials.base_url
     sdk = Mercadopago::SDK.new(Rails.application.credentials.mercadopago[:access_token])
@@ -60,6 +77,10 @@ class CheckoutController < ApplicationController
         currency_id: 'CLP',
         quantity: order.quantity
       }
+      if discount.present?
+        item[:unit_price] = item[:unit_price]*(1 - discount.to_f/100)
+      end
+
       @items << item
     end
     preference_data = {
